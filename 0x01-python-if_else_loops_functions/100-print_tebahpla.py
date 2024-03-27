@@ -1,6 +1,3 @@
 #!/usr/bin/python3
-for i in range(122, 96, -1):
-    char = i
-    if i % 2 != 0:
-        char = char - 32
-    print("{:c}".format(char), end="")
+for c in range(122, 96, -1):
+    print('{}'.format(chr(c) if c % 2 == 0 else chr(c - 32)), end='')

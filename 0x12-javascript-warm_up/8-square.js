@@ -1,13 +1,15 @@
 #!/usr/bin/node
 
-const argSquare = process.argv;
-const number = parseInt(argSquare[2], 10);
+const args = process.argv;
+const number = parseInt(args[2], 10);
+let i;
+let j;
 
-if (argSquare[2]) {
+if (args[2]) {
   if (number) {
-    for (let i = 0; i < number; i++) {
+    for (i = 0; i < number; i++) {
       let square = '';
-      for (let j = 0; j < number; j++) {
+      for (j = 0; j < number; j++) {
         square += 'X';
       }
       console.log(square);
@@ -15,6 +17,4 @@ if (argSquare[2]) {
   } else {
     console.log('Missing size');
   }
-} else {
-  console.log('Missing size');
 }

@@ -1,9 +1,11 @@
 #!/usr/bin/python3
-"""
-LockedClass class
-"""
+"""locked class that stops user from dynamically creating new instance"""
 
 
 class LockedClass:
-    """ setattr """
-    __slots__ = ["first_name"]
+    """
+    empty class
+    """
+    """define allowed instance"""
+    __slots__ = ('first_name')
+    pass

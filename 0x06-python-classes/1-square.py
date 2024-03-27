@@ -1,9 +1,9 @@
 #!/usr/bin/python3
-""" Defines a class named Square """
+"""a class with an object size in it"""
 
 
 class Square:
-    """ defines a function called __init__ """
+    """defining a private object size inside class square"""
     def __init__(self, size):
-        """ initializes __size of self with size """
+        """initializing object"""
         self.__size = size

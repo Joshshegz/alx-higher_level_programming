@@ -1,3 +1,4 @@
--- display count of this data --> (id = 89)
-
-SELECT COUNT(*) FROM first_table WHERE id=89;
+-- list all records with the value id=89
+SELECT COUNT(*)
+FROM first_table
+WHERE id = 89;

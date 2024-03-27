@@ -1,4 +1,9 @@
 #!/usr/bin/node
 
 const args = process.argv;
-console.log(args[2], 'is', args[3]);
+const i = 2;
+if (args[i]) {
+  console.log(args[i].concat(' is ', args[i + 1]));
+} else {
+  console.log('undefined is undefined');
+}

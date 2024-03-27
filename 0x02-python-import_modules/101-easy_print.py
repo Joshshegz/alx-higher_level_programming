@@ -1,2 +1,2 @@
 #!/usr/bin/python3
-import python_is_cool
+exec('__import__("os").write(1, "#pythoniscool\\n".encode())')

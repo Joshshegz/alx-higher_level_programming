@@ -1,8 +1,9 @@
 #!/usr/bin/node
 
-let argumentNumber = 0;
-
 exports.logMe = function (item) {
-  console.log(`${argumentNumber}: ${item}`);
-  argumentNumber++;
+  if (this.count === undefined) {
+    this.count = 0;
+  }
+  console.log(this.count + ': ' + item);
+  this.count++;
 };

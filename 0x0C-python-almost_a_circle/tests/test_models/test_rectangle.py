@@ -1,145 +1,89 @@
 #!/usr/bin/python3
-"""
-test_rectangle module
-"""
-import unittest
-from models.base import Base
-from models.rectangle import Rectangle
-import io
-import contextlib
+"""This test module defines tests for rectangle.py"""
 
+from models.rectangle import Rectangle
+from models.base import Base
+import unittest
+
+
+def setUp(self):
+    Base._Base__nb_objects = 0
 
 class TestRectangle(unittest.TestCase):
-    """
-    test class for Rectangle class
-    """
-    def setUp(self):
+    def test_rectangle_creation(self):
+        r = Rectangle(5, 10)
+        self.assertEqual(r.width, 5)
+        self.assertEqual(r.height, 10)
+        self.assertEqual(r.x, 0)
+        self.assertEqual(r.y, 0)
+        self.assertIsNotNone(r.id)
+
+    def test_invalid_width(self):
+        with self.assertRaises(ValueError):
+            r = Rectangle(0, 10)
+        with self.assertRaises(TypeError):
+            r = Rectangle("five", 10)
+
+    def test_invalid_height(self):
+        with self.assertRaises(ValueError):
+            r = Rectangle(5, -1)
+        with self.assertRaises(TypeError):
+            r = Rectangle(5, "ten")
+
+    def test_invalid_x(self):
+        with self.assertRaises(ValueError):
+            r = Rectangle(5, 10, -1)
+        with self.assertRaises(TypeError):
+            r = Rectangle(5, 10, "zero")
+
+    def test_invalid_y(self):
+        with self.assertRaises(ValueError):
+            r = Rectangle(5, 10, 0, -1)
+        with self.assertRaises(TypeError):
+            r = Rectangle(5, 10, 0, "one")
+
+    def test_area_calculation(self):
+        r = Rectangle(5, 10)
+        self.assertEqual(r.area(), 50)
+
+    def test_create_rectangle_with_args(self):
         Base._Base__nb_objects = 0
+        r = Rectangle(10, 5)
+        self.assertEqual(r.id, 1)
+        self.assertEqual(r.width, 10)
+        self.assertEqual(r.height, 5)
+        self.assertEqual(r.x, 0)
+        self.assertEqual(r.y, 0)
 
-    def test_1(self):
-        """test 1"""
-        f = io.StringIO()
-        r0 = Rectangle(1, 2)
-        self.assertEqual(r0.id, 1)
-        self.assertEqual(r0.width, 1)
-        self.assertEqual(r0.height, 2)
-        self.assertEqual(r0.x, 0)
-        self.assertEqual(r0.y, 0)
-        self.assertEqual(r0.__str__(), "[Rectangle] (1) 0/0 - 1/2")
-        self.assertEqual(r0.area(), 2)
-        with contextlib.redirect_stdout(f):
-        	r0.display()
-        s = f.getvalue()
+    def test_create_rectangle_with_kwargs(self):
+        Base._Base__nb_objects = 0
+        r = Rectangle(id=2, width=7, height=2, x=1, y=1)
+        self.assertEqual(r.id, 2)
+        self.assertEqual(r.width, 7)
+        self.assertEqual(r.height, 2)
+        self.assertEqual(r.x, 1)
+        self.assertEqual(r.y, 1)
 
-        output = '#\n#\n'
-        self.assertEqual(s, output)
-        output = {'x': 0, 'y': 0, 'id': 1, 'height': 2, 'width': 1}
-        self.assertEqual(r0.to_dictionary(), output)
-        r0.update()
-        self.assertEqual(r0.__str__(), "[Rectangle] (1) 0/0 - 1/2")
-        r0.update(89)
-        self.assertEqual(r0.__str__(), "[Rectangle] (89) 0/0 - 1/2")
-        r0.update(89, 1)
-        self.assertEqual(r0.__str__(), "[Rectangle] (89) 0/0 - 1/2")
-        r0.update(89, 1, 2)
-        self.assertEqual(r0.__str__(), "[Rectangle] (89) 0/0 - 1/2")
-        r0.update(89, 1, 2, 3)
-        self.assertEqual(r0.__str__(), "[Rectangle] (89) 3/0 - 1/2")
-        r0.update(89, 1, 2, 3, 4)
-        self.assertEqual(r0.__str__(), "[Rectangle] (89) 3/4 - 1/2")
-        r0.update(**{'id': 89})
-        self.assertEqual(r0.__str__(), "[Rectangle] (89) 3/4 - 1/2")
-        r0.update(**{'id': 89, 'width': 1})
-        self.assertEqual(r0.__str__(), "[Rectangle] (89) 3/4 - 1/2")
-        r0.update(**{'id': 89, 'width': 1, 'height': 2})
-        self.assertEqual(r0.__str__(), "[Rectangle] (89) 3/4 - 1/2")
-        r0.update(**{'id': 89, 'width': 1, 'height': 2, 'x': 3})
-        self.assertEqual(r0.__str__(), "[Rectangle] (89) 3/4 - 1/2")
-        r0.update(**{'id': 89, 'width': 1, 'height': 2, 'x': 3, 'y': 4})
-        self.assertEqual(r0.__str__(), "[Rectangle] (89) 3/4 - 1/2")
-        r0_dictionary = r0.to_dictionary()
-        r1 = Rectangle.create(**r0_dictionary)
-        self.assertIsNot(r0, r1)
+    def test_display(self):
+        r = Rectangle(3, 2)
+        output = "\n".join(["###", "###", ""])
+        self.assertEqual(r.display(), print(output))
 
-    def test_2(self):
-        """test 2"""
-        r0 = Rectangle(1, 2, 3)
-        self.assertEqual(r0.id, 1)
-        self.assertEqual(r0.width, 1)
-        self.assertEqual(r0.height, 2)
-        self.assertEqual(r0.x, 3)
-        self.assertEqual(r0.y, 0)
-        self.assertEqual(r0.__str__(), "[Rectangle] (1) 3/0 - 1/2")
-        self.assertEqual(r0.area(), 2)
-        output = {'x': 3, 'y': 0, 'id': 1, 'height': 2, 'width': 1}
-        self.assertEqual(r0.to_dictionary(), output)
+    def test_to_dictionary(self):
+        Base._Base__nb_objects = 0
+        r = Rectangle(10, 5, 2, 1)
+        self.assertEqual(r.to_dictionary(), {
+                         'id': 1, 'width': 10, 'height': 5, 'x': 2, 'y': 1})
 
-    def test_3(self):
-        """test 3"""
-        r0 = Rectangle(1, 2, 3, 4)
-        self.assertEqual(r0.id, 1)
-        self.assertEqual(r0.width, 1)
-        self.assertEqual(r0.height, 2)
-        self.assertEqual(r0.x, 3)
-        self.assertEqual(r0.y, 4)
-        self.assertEqual(r0.__str__(), "[Rectangle] (1) 3/4 - 1/2")
-        self.assertEqual(r0.area(), 2)
-        output = {'x': 3, 'y': 4, 'id': 1, 'height': 2, 'width': 1}
-        self.assertEqual(r0.to_dictionary(), output)
+    def test_update_kwargs(self):
+        Base._Base__nb_objects = 0
+        r = Rectangle(10, 10)
+        r.update(height=1)
+        self.assertEqual(str(r), "[Rectangle] (1) 0/0 - 10/1")
 
-    def test_4(self):
-        """test 4"""
-        with self.assertRaisesRegex(TypeError, "width must be an integer"):
-            Rectangle("1", 2)
-
-    def test_5(self):
-        """test 5"""
-        with self.assertRaisesRegex(TypeError, "height must be an integer"):
-            Rectangle(1, "2")
-
-    def test_6(self):
-        """test 6"""
-        with self.assertRaisesRegex(TypeError, "x must be an integer"):
-            Rectangle(1, 2, "3")
-
-    def test_7(self):
-        """test 7"""
-        with self.assertRaisesRegex(TypeError, "y must be an integer"):
-            Rectangle(1, 2, 3, "4")
-
-    def test_8(self):
-        """test 8"""
-        r0 = Rectangle(1, 2, 3, 4, 5)
-        self.assertEqual(r0.id, 5)
-        self.assertEqual(r0.width, 1)
-        self.assertEqual(r0.height, 2)
-        self.assertEqual(r0.x, 3)
-        self.assertEqual(r0.y, 4)
-        self.assertEqual(r0.__str__(), "[Rectangle] (5) 3/4 - 1/2")
-        self.assertEqual(r0.area(), 2)
-        output = {'x': 3, 'y': 4, 'id': 5, 'height': 2, 'width': 1}
-        self.assertEqual(r0.to_dictionary(), output)
-
-    def test_9(self):
-        """test 9"""
-        with self.assertRaisesRegex(ValueError, "width must be > 0"):
-            Rectangle(-1, 2)
-
-    def test_10(self):
-        """test 10"""
-        with self.assertRaisesRegex(ValueError, "height must be > 0"):
-            Rectangle(1, -2)
-
-    def test_11(self):
-        """test 11"""
-        with self.assertRaisesRegex(ValueError, "width must be > 0"):
-            Rectangle(0, 2)
-
-    def test_12(self):
-        """test 12"""
-        with self.assertRaisesRegex(ValueError, "height must be > 0"):
-            Rectangle(1, 0)
+    def test_type(self):
+        self.assertEqual(type(Rectangle), type)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

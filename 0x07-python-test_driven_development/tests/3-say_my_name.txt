@@ -1,47 +1,25 @@
-==============================
-How to use 3-say_my_name.py
-==============================
+This is the "3-matrix_divided.py" module
+=========================================
 
-1) Import file 
->>> say_my_name = __import__('3-say_my_name').say_my_name
+it prints a person's name
 
-2) say my name, test
->>> say_my_name("Monica", "Jaimes Caicedo")
-My name is Monica Jaimes Caicedo
+>>> say_my_name = __import__("3-say_my_name").say_my_name
 
-say my name, test
->>> say_my_name("Monica", "Jaimes Caicedo")
-My name is Monica Jaimes Caicedo
+ it prints a person's name
+    >>> say_my_name("Chriss", "Tin")
+    My name is Chriss Tin
 
+    when there's just one argument
+    >>> say_my_name("Tin")
+    My name is Tin
 
-3) say my name with space
->>> say_my_name("Monica")
-My name is Monica 
+    when argument is not a string
+    >>> say_my_name(2, "Tin")
+    Traceback (most recent call last):
+        ...
+    TypeError: first_name must be a string
 
-4) Error with integers for say my name
->>> say_my_name(1, "me")
-Traceback (most recent call last):
-TypeError: first_name must be a string
-
-5) Error with integers for my lastname
->>> say_my_name("Guido", [1, 2, 3,])
-Traceback (most recent call last):
-TypeError: last_name must be a string
-
-6) Error for none name and last name
->>> say_my_name(None, None)
-Traceback (most recent call last):
-TypeError: first_name must be a string
-
-7) Error for None name
->>> say_my_name(None)
-Traceback (most recent call last):
-TypeError: first_name must be a string
-
-8) empty values
->>> say_my_name()
-Traceback (most recent call last):
-TypeError: say_my_name() missing 1 required positional argument: 'first_name'
-
-
-9)
+    >>> say_my_name("Chriss", 0.3)
+    Traceback (most recent call last):
+        ...
+    TypeError: last_name must be a string
